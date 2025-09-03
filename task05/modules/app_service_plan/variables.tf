@@ -1,36 +1,29 @@
 variable "name" {
-  description = "The name of the App Service Plan"
+  description = "Name of the app service plan"
   type        = string
 }
 
-variable "resource_group_name" {
-  description = "The name of the Resource Group"
+variable "resource_group" {
+  description = "Name of the resource group"
   type        = string
 }
 
 variable "location" {
-  description = "The location of the App Service Plan"
+  description = "Location of the app service plan"
   type        = string
 }
 
-variable "os_type" {
-  description = "The O/S type for the App Service Plan"
-  type        = string
-  default     = "Windows"
-}
-
-variable "sku_name" {
-  description = "The SKU for the plan"
+variable "sku" {
+  description = "SKU for the app service plan"
   type        = string
 }
 
 variable "worker_count" {
-  description = "The number of workers (instances) for the plan"
+  description = "Number of workers"
   type        = number
 }
 
 variable "tags" {
-  description = "Tags to apply to the App Service Plan"
+  description = "Tags to apply to the app service plan"
   type        = map(string)
-  default     = {}
 }

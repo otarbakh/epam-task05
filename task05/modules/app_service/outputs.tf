@@ -1,10 +1,19 @@
 output "id" {
-  description = "The ID of the Windows Web App"
+  description = "ID of the app service"
   value       = azurerm_windows_web_app.app.id
 }
 
-output "default_site_hostname" {
-  description = "The default hostname of the Windows Web App"
-  value       = azurerm_windows_web_app.app.default_hostname
+output "name" {
+  description = "Name of the app service"
+  value       = azurerm_windows_web_app.app.name
+}
 
+output "default_hostname" {
+  description = "Default hostname of the app service"
+  value       = azurerm_windows_web_app.app.default_hostname
+}
+
+output "outbound_ip_addresses" {
+  description = "Outbound IP addresses of the app service"
+  value       = azurerm_windows_web_app.app.outbound_ip_addresses
 }

@@ -1,4 +1,4 @@
 output "traffic_manager_fqdn" {
-  description = "The FQDN of the Traffic Manager"
+  description = "Azure Traffic Manager FQDN"
   value       = module.traffic_manager.fqdn
 }

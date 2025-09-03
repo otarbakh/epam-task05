@@ -1,28 +1,34 @@
 resource "azurerm_windows_web_app" "app" {
   name                = var.name
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group
   location            = var.location
-  service_plan_id     = var.service_plan_id
-  tags                = var.tags
+  service_plan_id     = var.app_service_plan_id
 
   site_config {
+    always_on = false
+
+
+    scm_use_main_ip_restriction = true
+
+
+    ip_restriction_default_action = "Deny"
+
+
     dynamic "ip_restriction" {
-      for_each = var.allowed_ips
+      for_each = var.ip_restrictions
       content {
-        name        = ip_restriction.value.name
-        action      = "Allow"
-        ip_address  = ip_restriction.value.ip_address
-        service_tag = ip_restriction.value.service_tag
-        priority    = ip_restriction.value.priority
+        name     = ip_restriction.value.name
+        priority = ip_restriction.value.priority
+        action   = ip_restriction.value.action
+
+
+        ip_address = ip_restriction.value.ip_address != "AzureTrafficManager" ? ip_restriction.value.ip_address : null
+
+
+        service_tag = ip_restriction.value.ip_address == "AzureTrafficManager" ? "AzureTrafficManager" : null
       }
     }
-    # Always deny traffic that doesn't match any rule (default action)
   }
 
-  # We need to set the default action to deny. However, note that the azurerm_windows_web_app resource does not have a direct way to set the default action.
-  # The default action is Deny by default when at least one ip_restriction block is defined. So we are safe.
-
-  # Note: The ip_restriction block can have either ip_address or service_tag.
+  tags = var.tags
 }
-
-# Note: The allowed_ips variable is a list of objects that can have either ip_address or service_tag.

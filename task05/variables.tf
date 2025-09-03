@@ -12,24 +12,31 @@ variable "app_service_plans" {
     name           = string
     resource_group = string
     location       = string
-    sku_name       = string
     worker_count   = number
+    sku            = string
   }))
 }
 
 variable "app_services" {
+  description = "Map of app services to create"
   type = map(object({
     name             = string
     resource_group   = string
     location         = string
-    service_plan_key = string
+    app_service_plan = string
+    ip_restrictions = list(object({
+      name       = string
+      ip_address = string
+      priority   = number
+      action     = string
+    }))
   }))
 }
 
 variable "traffic_manager" {
-  description = "Object for traffic manager"
+  description = "Traffic manager configuration"
   type = object({
-    profile_name   = string
+    name           = string
     resource_group = string
     location       = string
     routing_method = string
@@ -40,7 +47,9 @@ variable "traffic_manager" {
 }
 
 variable "tags" {
-  description = "Tags to apply to all resources"
+  description = "Tags to apply to resources"
   type        = map(string)
-  default     = {}
+  default = {
+    Creator = "tani_bekeshev@epam.com"
+  }
 }
