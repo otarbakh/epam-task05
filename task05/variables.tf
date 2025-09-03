@@ -18,18 +18,11 @@ variable "app_service_plans" {
 }
 
 variable "app_services" {
-  description = "Map of app services to create"
   type = map(object({
-    name           = string
-    resource_group = string
-    location       = string
-    service_plan   = string
-    allowed_ips = list(object({
-      name        = string
-      ip_address  = optional(string)
-      service_tag = optional(string)
-      priority    = number
-    }))
+    name             = string
+    resource_group   = string
+    location         = string
+    service_plan_key = string
   }))
 }
 
